@@ -26,7 +26,6 @@ def DeleteAll(path):
 
 
 def Run3D():
-    PopupText("Checkin for updates")
     if not os.path.exists("Data/3DV.txt"):
         savedVersion = "0.0.0"
     else:
@@ -38,11 +37,9 @@ def Run3D():
     with open("Data/3DV.txt", "r") as file2:
         onlineVersion = file2.readline()
     if not onlineVersion == savedVersion:
-        PopupText("Downloading new version")
         DeleteAll("Data/Game/3d")
         wget.download(game3dData, "Data/Game/3d/game.zip")
         print("")
-        PopupText("Unzipping")
         with zipfile.ZipFile("Data/Game/3d/game.zip", "r") as gameZip:
             gameZip.extractall("Data/Game/3d")
     os.popen("Data/Game/3d/Boss Fights 3D.exe")
