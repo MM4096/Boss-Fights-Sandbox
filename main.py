@@ -1,3 +1,4 @@
+import ast
 import os
 import time
 
@@ -5,15 +6,11 @@ import wget
 import zipfile
 
 # URLs to download from
-lts = "0.3"
 
-versions = {
-    "0.3": "https://drive.google.com/uc?export=download&confirm=yTib&id=1X3reyrMbkca8lCo9PxSoYZrClcHpTN9_",
-    "0.2": "https://drive.google.com/uc?export=download&confirm=yTib&id=1l50al5SZaIfeemDpZUi11XOp8tfDpSBF",
-    "0.1": "https://drive.google.com/uc?export=download&confirm=yTib&id=11XOnOHGLbReSy3e8Wo0GT84blTEPLlea",
-}
+versions = ""
 launcherVersion = "https://drive.google.com/uc?export=download&confirm=yTib&id=1FFTtpXrndeUmc2Xk24fuGwpuDteOpmV5"
 launcherData = "https://drive.google.com/uc?export=download&confirm=yTib&id=1qrpe0llZtW-_Pc8Lw_tWTllHh0ynKe6p"
+gameLink = "https://drive.google.com/uc?export=download&confirm=yTib&id=1vC4p82IkcZIndnn9vD8sgSnFcz0pv3Tr"
 
 
 def DeleteAll(path):
@@ -32,9 +29,14 @@ def DeleteAll(path):
 def MainApp():
     running = True
     while running:
-        versionToRun = input("What version of game would you like to run?\nlts\n0.3\n0.2\n0.1\n(input)\n")
+        currentVersions = list(versions.keys())
+        printStr = "What version of game would you like to run?\nlts\n"
+        for version in currentVersions:
+            printStr = printStr + version + "\n"
+        printStr = printStr + "(input)\n"
+        versionToRun = input(printStr)
         if versionToRun == "lts":
-            versionToRun = lts
+            versionToRun = currentVersions[0]
         path = os.path.join("Data", "Game", versionToRun)
         try:
             if os.path.exists(path):
@@ -86,6 +88,13 @@ if __name__ == "__main__":
         wget.download(launcherData, "launcher.exe")
         print("")
         os.remove("placeholder.exe")
-        os.system("launcher.exe")
+        os.startfile("launcher.exe")
 
+    print("Gathering launch codes...")
+    if os.path.exists("Data/downloadLinks.BFData"):
+        os.remove("Data/downloadLinks.BFData")
+    wget.download(gameLink, "Data/downloadLinks.BFData")
+    print("")
+    with open("Data/downloadLinks.BFData", "r") as file:
+        versions = ast.literal_eval(file.read())
     MainApp()
