@@ -13,7 +13,7 @@ This game is still in the development stage.
 
 This link downloads the built code from the launcher code (link below) as an exe.
 
-If you need troubleshooting help, use the _issues_ tab, and [submit a help document]()
+If you need troubleshooting help, use the _issues_ tab, and [submit a help document](https://github.com/MM4096/Boss-Fights-Sandbox#help)
 
 ### Game source code:
 Unfortunately, the source code for the game will not be published. However, if you want to check the launcher code, go [here](https://github.com/MM4096/Boss-Fights-Sandbox/blob/main/main.py)
@@ -29,6 +29,9 @@ Please **_DO NOT_** use any tag other than _bug_, _documentation_ or _enhancemen
 Remember to make sure you add enough details to make any sort of report or request, or it will get ignored.
 Here is an issue template: [issue template](https://github.com/MM4096/Boss-Fights-Sandbox/issues/5)
 
+
+### Help:
+To submit a help document, create a new issue, and add the _help_ tag.
 
 ### Changelog:
 #### V0.3 (earliest documented)
