@@ -29,6 +29,8 @@ Please **_DO NOT_** use any tag other than _bug_, _documentation_ or _enhancemen
 Remember to make sure you add enough details to make any sort of report or request, or it will get ignored.
 Here is an issue template: [issue template](https://github.com/MM4096/Boss-Fights-Sandbox/issues/5)
 
+Please only submit one bug for each issue
+
 
 ### Help:
 To submit a help document, create a new issue, and add the _help_ tag.
