@@ -1,15 +1,19 @@
 import os
+import time
 
 import wget
 import zipfile
 
 # URLs to download from
-launcherVersion = "https://drive.google.com/uc?export=download&confirm=yTib&id=1ZT3hfLbfxrMWiCjZhThsnlaKOPdq2R1k"
-launcherData = "https://drive.google.com/uc?export=download&confirm=yTib&id=1j35z5ffBeykcd_uJ6SLZts40Dg6HJKup"
-game3dVersion = "https://drive.google.com/uc?export=download&confirm=yTib&id=1PymW-_1ZqzQcs0HO9s1hy17w7Ez9k1pW"
-game3dData = "https://drive.google.com/uc?export=download&confirm=yTib&id=1vWHgCsXdCxif2qs1U7jpR0l926XaugEX"
-game2dVersion = "https://drive.google.com/uc?export=download&confirm=yTib&id=17h6tLvjUE8AT9U-kIqWQYRTddNu-gXEU"
-game2dData = "https://drive.google.com/uc?export=download&confirm=yTib&id=11U7lW7WdffKjmRsvXL73rGKP_V1JwABP"
+lts = "0.3"
+
+versions = {
+    "0.3": "https://drive.google.com/uc?export=download&confirm=yTib&id=1X3reyrMbkca8lCo9PxSoYZrClcHpTN9_",
+    "0.2": "https://drive.google.com/uc?export=download&confirm=yTib&id=1l50al5SZaIfeemDpZUi11XOp8tfDpSBF",
+    "0.1": "https://drive.google.com/uc?export=download&confirm=yTib&id=11XOnOHGLbReSy3e8Wo0GT84blTEPLlea",
+}
+launcherVersion = "https://drive.google.com/uc?export=download&confirm=yTib&id=1FFTtpXrndeUmc2Xk24fuGwpuDteOpmV5"
+launcherData = "https://drive.google.com/uc?export=download&confirm=yTib&id=1qrpe0llZtW-_Pc8Lw_tWTllHh0ynKe6p"
 
 
 def DeleteAll(path):
@@ -25,50 +29,31 @@ def DeleteAll(path):
             os.remove(os.path.join(path, fod))
 
 
-def Run3D():
-    if not os.path.exists("Data/3DV.txt"):
-        savedVersion = "0.0.0"
-    else:
-        with open("Data/3DV.txt", "r") as file1:
-            savedVersion = file1.readline()
-        os.remove("Data/3DV.txt")
-    wget.download(game3dVersion, "Data/3DV.txt")
-    print("")
-    with open("Data/3DV.txt", "r") as file2:
-        onlineVersion = file2.readline()
-    if not onlineVersion == savedVersion:
-        DeleteAll("Data/Game/3d")
-        wget.download(game3dData, "Data/Game/3d/game.zip")
-        print("")
-        with zipfile.ZipFile("Data/Game/3d/game.zip", "r") as gameZip:
-            gameZip.extractall("Data/Game/3d")
-    os.popen("Data/Game/3d/Boss Fights 3D.exe")
-
-
-def Run2D():
-    os.system('cls')
-    print("Checking for updates...")
-    if not os.path.exists("Data/2DV.txt"):
-        savedVersion = "0.0.0"
-    else:
-        with open("Data/2DV.txt", "r") as file1:
-            savedVersion = file1.readline()
-        os.remove("Data/2DV.txt")
-    wget.download(game2dVersion, "Data/2DV.txt")
-    print("")
-    with open("Data/2DV.txt", "r") as file2:
-        onlineVersion = file2.readline()
-    if not onlineVersion == savedVersion:
-        print("Deleting old version")
-        DeleteAll("Data/Game/2d")
-        print("New update!")
-        print("Downloading Boss Fights 2D.zip")
-        wget.download(game2dData, "Data/Game/2d/game.zip")
-        print("")
-        print("Extracting")
-        with zipfile.ZipFile("Data/Game/2d/game.zip", "r") as gameZip:
-            gameZip.extractall("Data/Game/2d")
-    os.popen("Data/Game/2d/Boss Fights.exe")
+def MainApp():
+    running = True
+    while running:
+        versionToRun = input("What version of game would you like to run?\nlts\n0.3\n0.2\n0.1\n(input)\n")
+        if versionToRun == "lts":
+            versionToRun = lts
+        path = os.path.join("Data", "Game", versionToRun)
+        try:
+            if os.path.exists(path):
+                print("has version")
+            else:
+                link = versions[versionToRun]
+                print("added")
+                os.mkdir(path)
+                wget.download(link, path + "/game.zip")
+                with zipfile.ZipFile(path + "/game.zip", "r") as gameZip:
+                    gameZip.extractall("Data/Game/" + versionToRun)
+            os.startfile(path + "/BossFightsSandBox.exe")
+            print("Troubleshooting:")
+            print("If the game doesn't run, try deleting the folder containing the game")
+            time.sleep(120)
+            a = 0 / 0
+        except KeyError:
+            os.system("cls")
+            print("Version doesn't exist!")
 
 
 if __name__ == "__main__":
@@ -78,10 +63,6 @@ if __name__ == "__main__":
         os.makedirs("Data")
     if not (os.path.exists("Data/Game")):
         os.makedirs("Data/Game")
-    if not (os.path.exists("Data/Game/2d")):
-        os.makedirs("Data/Game/2d")
-    if not (os.path.exists("Data/Game/3d")):
-        os.makedirs("Data/Game/3d")
     print("Checking for launcher updates...")
     if not os.path.exists("Data/launcherVersion.txt"):
         currentLauncherVersion = 0
@@ -106,3 +87,5 @@ if __name__ == "__main__":
         print("")
         os.remove("placeholder.exe")
         os.system("launcher.exe")
+
+    MainApp()
