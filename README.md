@@ -36,6 +36,8 @@ Please only submit one bug for each issue
 To submit a help document, create a new issue, and add the _help_ tag.
 
 ### Changelog:
+#### V0.4
+- Added inventory
 #### V0.3.5
 - Patch of V0.3, fixed the jumping bug
 #### V0.3 (earliest documented)
